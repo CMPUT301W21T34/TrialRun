@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 public class ExperimentManager {
     private ArrayList<Experiment> experiments;
-    /*
-
-     */
 
     public ExperimentManager() {
         //
