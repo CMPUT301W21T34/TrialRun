@@ -70,7 +70,7 @@ public class Experiment {
     private boolean published;
     private String description;
     private Date date;
-    private Region region;
+    private Location region;
     private int minimum_trials;
     private Type type;
     // How do we handle discussions (Questions/Answers?)
