@@ -2,6 +2,10 @@ package com.example.trialsinthewild;
 
 import java.util.Date;
 
+/**
+ * This is a JavaDoc comment, it will appear next to the Entity that's after it. Use it to describe what the function/class does
+ * 'Experiment' will show this entire comment.
+ */
 public class Experiment {
     /*
         US 06.01.01
@@ -63,11 +67,11 @@ public class Experiment {
     private int experiment_id;
     private int owner_id;
     private int status;
+    private boolean published;
     private String description;
     private Date date;
-    private Location region;
+    private Region region;
     private int minimum_trials;
-    private boolean published;
     private Type type;
     // How do we handle discussions (Questions/Answers?)
 
@@ -84,6 +88,10 @@ public class Experiment {
         this.type = type;
     }
 
+    /**
+     * Description of what the below function does
+     * @return Explanation of what this method returns
+     */
     public int getExperiment_id() {
         return experiment_id;
     }

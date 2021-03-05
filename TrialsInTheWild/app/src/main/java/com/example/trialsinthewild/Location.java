@@ -1,10 +1,11 @@
 package com.example.trialsinthewild;
 
+/**
+ * Precise location related to GPS - most likely replace later with actual android GPS entity
+ */
 public class Location {
     private double longitude;
     private double lattitude;
-    private String location_description;
-    private double range;
 
     public Location() {
         // constructor
