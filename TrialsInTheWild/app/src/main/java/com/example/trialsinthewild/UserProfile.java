@@ -1,6 +1,10 @@
 package com.example.trialsinthewild;
 
 /*
+    UserProfile database = includes contact infor along with user ID
+ */
+
+/*
     User profile
     US 04.01.01
     As an owner or experimenter, I want a profile with a UNIQUE username and my contact information.
@@ -11,6 +15,7 @@ package com.example.trialsinthewild;
  */
 
 public class UserProfile {
+    private int user_id;
     private String contact_info;
     private String username;
 

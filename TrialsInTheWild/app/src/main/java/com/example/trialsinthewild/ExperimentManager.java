@@ -4,40 +4,52 @@ import java.util.ArrayList;
 
 public class ExperimentManager {
     private ArrayList<Experiment> experiments;
+    private static ExperimentManager instance;
 
-    public ExperimentManager() {
-        //
+    private ExperimentManager() {
+        // The single initialization of this class
     }
 
-    public Experiment GetExperiment(int index) {
-        return experiments.get(index);
+    public ExperimentManager getInstance() {
+        if(instance == null) {
+            instance = new ExperimentManager();
+        }
+        return instance;
     }
 
-    public void AddExperiment() {
-
+    public Experiment GetExperiment(int experiment_id) {
+        return experiments.get(experiment_id);
     }
 
-    public void PublishExperiment() {
-
+    public void loadExperiment(int experiment_id) {
+        // Load from database
     }
 
-    public void UnpublishExperiment() {
-
+    public void addExperiment() {
+        // add experiment to current manager + database?
     }
 
-    public void UploadTrialsForReview() {
-
-    }
-
-    public void UploadTrials() {
-
-    }
-
-    public void GetTrialsForReview() {
+    public void publishExperiment() {
 
     }
 
-    public void DeclineReviewedTrial() {
+    public void unpublishExperiment() {
+
+    }
+
+    public void submitTrialsForReview() {
+
+    }
+
+    public void uploadTrials() {
+
+    }
+
+    public void getTrialsForReview() {
+
+    }
+
+    public void declineReviewedTrial() {
 
     }
 }

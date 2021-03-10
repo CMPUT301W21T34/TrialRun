@@ -1,5 +1,7 @@
 package com.example.trialsinthewild;
 
+import java.util.Date;
+
 public class Trial {
     /*
         Make subclasses for BinomialTrial, CountTrial, NonNegativeTrial, MeasurementTrial?
@@ -13,15 +15,16 @@ public class Trial {
 
     private Location loc; // If required
     private double outcome; //
-    private Experiment.Type type; //
+    private int type; //
+    private Date date;
 
-    public Trial(double result, Experiment.Type type) {
+    public Trial(double result, int type) {
         this.loc = null;
         this.outcome = outcome;
         this.type = type;
     }
 
-    public Trial(double result, Experiment.Type type, Location loc) {
+    public Trial(double result, int type, Location loc) {
         this.loc = loc;
         this.outcome = outcome;
         this.type = type;
