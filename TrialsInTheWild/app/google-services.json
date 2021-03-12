@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1078097422955",
+    "project_id": "trialsinthewild-45361",
+    "storage_bucket": "trialsinthewild-45361.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078097422955:android:8f3edfa6ece04da4d69f2e",
+        "android_client_info": {
+          "package_name": "com.example.trialsinthewild"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078097422955-o5et16b9f2fffjsvjf93njejimiin5eq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxqREBUoIBQI8SNM05is_2YIpOKdHd2bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078097422955-o5et16b9f2fffjsvjf93njejimiin5eq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

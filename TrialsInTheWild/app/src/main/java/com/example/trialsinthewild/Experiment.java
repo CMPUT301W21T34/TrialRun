@@ -3,11 +3,6 @@ package com.example.trialsinthewild;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * This is a JavaDoc comment, it will appear next to the Entity that's after it. Use it to describe what the function/class does
- * 'Experiment' will show this entire comment.
- */
-public class Experiment {
     /*
         US 06.01.01
         As an owner, I want to specify a Geo-location is required or not for trials.
@@ -53,6 +48,7 @@ public class Experiment {
 
      */
 
+<<<<<<< HEAD
     public final static int TYPE_BINOMIAL = 0;
     public final static int TYPE_COUNT = 1;
     public final static int TYPE_NON_NEGATIVE = 2;
@@ -61,6 +57,21 @@ public class Experiment {
     public final static int STATUS_CLOSED = 0;
     public final static int STATUS_OPEN = 1;
 
+=======
+/**
+ * This is a JavaDoc comment, it will appear next to the Entity that's after it. Use it to describe what the function/class does
+ * 'Experiment' will show this entire comment.
+ */
+public class Experiment {
+
+    final public static int TYPE_BINOMIAL = 0;
+    final public static int TYPE_COUNT = 1;
+    final public static int TYPE_NON_NEGATIVE = 2;
+    final public static int TYPE_MEASUREMENT = 3;
+
+    final public static int STATUS_ENDED = 0;
+    final public static int STATUS_OPEN = 1;
+>>>>>>> origin
 
     private int experiment_id;
     private int owner_id;
@@ -68,13 +79,17 @@ public class Experiment {
     private boolean published;
     private String description;
     private Date date;
-    private Location region;
+    private Region region;
     private int minimum_trials;
     private int type;
     // How do we handle discussions (Questions/Answers?)
     private ArrayList<Message> questionList;
 
+<<<<<<< HEAD
     public Experiment(int experiment_id, int owner_id, String description, Location region, int minimum_trials, int type) {
+=======
+    public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type) {
+>>>>>>> origin
         this.experiment_id=experiment_id;
         this.owner_id=owner_id;
         this.description=description;
@@ -160,6 +175,7 @@ public class Experiment {
         this.date = date;
     }
 
+<<<<<<< HEAD
     /**
      * Get the 'Region' object of the current experiment
      * @return 'Region' object
@@ -173,6 +189,13 @@ public class Experiment {
      * @param region 'Region' object, contains precise gps location, range around it, and a description
      */
     public void setRegion(Location region) {
+=======
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+>>>>>>> origin
         this.region = region;
     }
 
@@ -208,18 +231,24 @@ public class Experiment {
         this.published = published;
     }
 
+<<<<<<< HEAD
     /**
      * Get the trial type of current experiment (Binomial trial, counting trial, measurement, non-negative)
      * @return type of experiment
      */
+=======
+>>>>>>> origin
     public int getType() {
         return type;
     }
 
+<<<<<<< HEAD
     /**
      * Set the trial type of current experiment (Binomial trial, counting trial, measurement, non-negative)
      * @param type
      */
+=======
+>>>>>>> origin
     public void setType(int type) {
         this.type = type;
     }

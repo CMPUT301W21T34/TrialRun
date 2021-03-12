@@ -11,12 +11,18 @@ public class Trial {
         NonNegativeTrial = a number between 0 and N
         MeasurementTrial = a value which needs to be float - unsure if it's ugly to handle all outcomes/results as a float to accommodate this
      */
-
+    final public static int TYPE_BINOMIAL = 0;
+    final public static int TYPE_COUNT = 1;
+    final public static int TYPE_NON_NEGATIVE = 2;
+    final public static int TYPE_MEASUREMENT = 3;
 
     private Location loc; // If required
     private double outcome; //
     private int type; //
+<<<<<<< HEAD
     private Date date;
+=======
+>>>>>>> origin
 
     public Trial(double result, int type) {
         this.loc = null;
