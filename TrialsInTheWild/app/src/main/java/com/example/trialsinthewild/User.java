@@ -41,7 +41,7 @@ public class User {
     private String username;
     private int userId;
     private ArrayList<Integer> subscribed_experiments;        // These can be stored locally - pretty much just a watchlist
-    // Retreive the actual 'owned' experiments from the database
+    private ArrayList<Integer> owned_experiments;
 
     public User() {
 

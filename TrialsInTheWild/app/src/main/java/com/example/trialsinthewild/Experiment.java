@@ -53,17 +53,13 @@ import java.util.Date;
  */
 public class Experiment {
 
-    enum Type {
-        TYPE_BINOMIAL,
-        TYPE_COUNT,
-        TYPE_NON_NEGATIVE,
-        TYPE_MEASUREMENT
-    }
+    final public static int TYPE_BINOMIAL = 0;
+    final public static int TYPE_COUNT = 1;
+    final public static int TYPE_NON_NEGATIVE = 2;
+    final public static int TYPE_MEASUREMENT = 3;
 
-    enum Status {
-        STATUS_OPEN,
-        STATUS_ENDED
-    }
+    final public static int STATUS_ENDED = 0;
+    final public static int STATUS_OPEN = 1;
 
     private int experiment_id;
     private int owner_id;
@@ -73,10 +69,10 @@ public class Experiment {
     private Date date;
     private Region region;
     private int minimum_trials;
-    private Type type;
+    private int type;
     // How do we handle discussions (Questions/Answers?)
 
-    public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, Type type) {
+    public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type) {
         this.experiment_id=experiment_id;
         this.owner_id=owner_id;
         this.description=description;
@@ -133,11 +129,11 @@ public class Experiment {
         this.date = date;
     }
 
-    public Location getRegion() {
+    public Region getRegion() {
         return region;
     }
 
-    public void setRegion(Location region) {
+    public void setRegion(Region region) {
         this.region = region;
     }
 
@@ -157,11 +153,11 @@ public class Experiment {
         this.published = published;
     }
 
-    public Type getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(int type) {
         this.type = type;
     }
 }
