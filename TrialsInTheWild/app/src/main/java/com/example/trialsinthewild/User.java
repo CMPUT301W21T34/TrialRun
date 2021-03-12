@@ -2,7 +2,6 @@ package com.example.trialsinthewild;
 
 import java.util.ArrayList;
 
-public class User {
     /*
         User profile
         US 04.01.01
@@ -36,8 +35,11 @@ public class User {
         be one or the other.
      */
 
+public class User {
+
+    private String contact_info;
+    private String username;
     private int userId;
-    private UserProfile profile;
     private ArrayList<Integer> subscribed_experiments;        // These can be stored locally - pretty much just a watchlist
     // Retreive the actual 'owned' experiments from the database
 

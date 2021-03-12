@@ -2,11 +2,6 @@ package com.example.trialsinthewild;
 
 import java.util.Date;
 
-/**
- * This is a JavaDoc comment, it will appear next to the Entity that's after it. Use it to describe what the function/class does
- * 'Experiment' will show this entire comment.
- */
-public class Experiment {
     /*
         US 06.01.01
         As an owner, I want to specify a Geo-location is required or not for trials.
@@ -52,6 +47,12 @@ public class Experiment {
 
      */
 
+/**
+ * This is a JavaDoc comment, it will appear next to the Entity that's after it. Use it to describe what the function/class does
+ * 'Experiment' will show this entire comment.
+ */
+public class Experiment {
+
     enum Type {
         TYPE_BINOMIAL,
         TYPE_COUNT,
@@ -70,12 +71,12 @@ public class Experiment {
     private boolean published;
     private String description;
     private Date date;
-    private Location region;
+    private Region region;
     private int minimum_trials;
     private Type type;
     // How do we handle discussions (Questions/Answers?)
 
-    public Experiment(int experiment_id, int owner_id, String description, Location region, int minimum_trials, Type type) {
+    public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, Type type) {
         this.experiment_id=experiment_id;
         this.owner_id=owner_id;
         this.description=description;
