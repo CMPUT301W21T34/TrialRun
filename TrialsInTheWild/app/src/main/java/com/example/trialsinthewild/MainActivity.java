@@ -7,10 +7,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -31,10 +44,63 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.home);
         }
+
+        /* ******************************************************************************
+            This is a crappy test of how to create a user_id and store it locally. If they don't
+            Have a user_id, get a unique ID from the database and update it locally and in
+            the database. This entire section needs to go into helper class
+         ********************************************************************************/
+
+        // users that don't exist have id of -1 I guess?
+        final int NEW_USER = -1;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        int user_id = preferences.getInt("UserId", NEW_USER);
+        Log.d("user_id: ", String.valueOf(user_id));
+        if (user_id == NEW_USER) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final CollectionReference collectionReference = db.collection("Users");
+           collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+               @Override
+               public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                   int next_id = queryDocumentSnapshots.size();
+                   HashMap<String, Object> data =  new HashMap<>();
+
+                   User user = new User(next_id, "username"+String.valueOf(next_id), "");
+
+                   data.put("user_id", user.getUserId());
+                   data.put("user_name", user.getUsername());
+                   data.put("contact_info", user.getContact_info());
+
+                   collectionReference.document(String.valueOf(user.getUserId())).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                       @Override
+                       public void onSuccess(Void aVoid) {
+                           Log.d("UserDatabase: ", "Successfully added new user to database");
+
+                           // Sets a user id in devices shared preferences
+                           editor.putInt("UserId", next_id);
+                           editor.commit();
+                       }
+                   }).addOnFailureListener(new OnFailureListener() {
+                       @Override
+                       public void onFailure(@NonNull Exception e) {
+                           Log.d("UserDatabase: ", "Failed to add new user to database");
+                       }
+                   });
+
+               }
+           });
+        } else {
+            // user_id already exists locally!
+            // user_id <- this is the current users id
+        }
+        /* ******************************************************************************
+            End of the user id stuff
+        *********************************************************************************/
     }
 
     @Override
