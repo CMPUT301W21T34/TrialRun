@@ -43,7 +43,21 @@ public class User {
     private ArrayList<Integer> subscribed_experiments;        // These can be stored locally - pretty much just a watchlist
     private ArrayList<Integer> owned_experiments;
 
-    public User() {
+    public User(int userId, String username, String contact_info) {
+        this.userId=userId;
+        this.username=username;
+        this.contact_info=contact_info;
+    }
 
+    public String getContact_info() {
+        return contact_info;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 }

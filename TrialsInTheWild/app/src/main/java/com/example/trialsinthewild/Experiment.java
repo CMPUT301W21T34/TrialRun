@@ -72,6 +72,10 @@ public class Experiment {
     private int type;
     // How do we handle discussions (Questions/Answers?)
 
+    public Experiment() {
+
+    }
+
     public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type) {
         this.experiment_id=experiment_id;
         this.owner_id=owner_id;
@@ -89,7 +93,7 @@ public class Experiment {
      * Description of what the below function does
      * @return Explanation of what this method returns
      */
-    public int getExperiment_id() {
+    public int getExperimentId() {
         return experiment_id;
     }
 
@@ -97,11 +101,11 @@ public class Experiment {
         this.experiment_id = experiment_id;
     }*/
 
-    public int getOwner_id() {
+    public int getOwnerId() {
         return owner_id;
     }
 
-    public void setOwner_id(int owner_id) {
+    public void setOwnerId(int owner_id) {
         this.owner_id = owner_id;
     }
 
@@ -133,15 +137,23 @@ public class Experiment {
         return region;
     }
 
+    public int getRegionId() {
+        if (region == null) {
+            return -1;
+        } else {
+            return region.getRegionId();
+        }
+    }
+
     public void setRegion(Region region) {
         this.region = region;
     }
 
-    public int getMinimum_trials() {
+    public int getMinimumTrials() {
         return minimum_trials;
     }
 
-    public void setMinimum_trials(int minimum_trials) {
+    public void setMinimumTrials(int minimum_trials) {
         this.minimum_trials = minimum_trials;
     }
 

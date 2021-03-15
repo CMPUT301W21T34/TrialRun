@@ -7,6 +7,7 @@ public class Region {
     private Location location;
     private String description;
     private double range;
+    int region_id;
 
     public Region() {
         // constructor
@@ -14,5 +15,9 @@ public class Region {
 
     public boolean locationInRange(Location loc) {
         return false;
+    }
+
+    public int getRegionId() {
+        return region_id;
     }
 }
