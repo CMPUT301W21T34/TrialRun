@@ -14,8 +14,8 @@
             android:id="@+id/experimenter"
             android:title="Experimenter" />
         <item
-            android:id="@+id/labs"
-            android:title="Labs" />
+            android:id="@+id/experiments"
+            android:title="Experiments" />
     </group>
 
     <item android:title="User">
@@ -23,6 +23,9 @@
             <item
                 android:id="@+id/profile"
                 android:title="Profile" />
+            <item
+                android:id="@+id/user_search"
+                android:title="Search User"/>
         </menu>
 
     </item>
