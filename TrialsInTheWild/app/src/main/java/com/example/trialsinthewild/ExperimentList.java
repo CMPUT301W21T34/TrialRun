@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 
 /**
  * Something
+ * pop a list view
+ *
  */
 public class ExperimentList extends ArrayAdapter<Experiment> {
     private ArrayList<Experiment> experiments;
@@ -29,14 +31,19 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         View view = convertView;
 
         if (view == null){
+            //load content of list
             view = LayoutInflater.from(context).inflate(R.layout.experiment_list_content,parent,false);
         }
 
         Experiment experiment = experiments.get(position);
 
-        TextView cityName = view.findViewById(R.id.descriptionTextView);
+        TextView expDes = view.findViewById(R.id.descriptionTextView);
+        TextView expStatus = view.findViewById(R.id.statusTextView);
+        TextView expName = view.findViewById(R.id.userNameTextView);
 
-        cityName.setText(experiment.getDescription());
+        expDes.setText(experiment.getDescription());
+        expStatus.setText(experiment.getStatusStr());
+        expName.setText(String.valueOf(experiment.getOwnerId()));
 
         return view;
     }

@@ -45,6 +45,11 @@ public class ExperimenterFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("Item selected: ", String.valueOf(position));
+
+
+
+
+
                 /* The below code was just an example of adding a new experiment to the database
                    I just used the onClickItem listener to trigger it.
                 Experiment experiment = new Experiment(1, 0, "Description for experiment 1", null, 0, 2);
@@ -73,13 +78,13 @@ public class ExperimenterFragment extends Fragment {
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("Firebase: ", "Data can not be added!");
                             }
-                        });
+                        });*/
 
-                 */
+
             }
         });
 
-
+        //I see
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

@@ -25,13 +25,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CreateExperimentFragment.OnFragmentInteractionListener {
     private DrawerLayout drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Activity Launched
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ExperimentManager em = new ExperimentManager();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -172,5 +174,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         // Activity is finishing or the device destroys the activty to free up memory
         super.onDestroy();
+    }
+
+    @Override
+    public void onOkPressed(Experiment newExp) {
+        //Log.d("ok pressed",newExp.getDescription());
     }
 }

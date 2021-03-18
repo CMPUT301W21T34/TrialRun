@@ -73,7 +73,6 @@ public class Experiment {
     // How do we handle discussions (Questions/Answers?)
 
     public Experiment() {
-
     }
 
     public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type) {
@@ -171,5 +170,18 @@ public class Experiment {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getStatusStr(){
+        //this.status
+        switch (this.status){
+            case STATUS_ENDED:
+                return "ended";
+
+            case  STATUS_OPEN:
+                return "open";
+            default:
+                throw new IllegalStateException("Unexpected value: " + this.status);
+        }
     }
 }
