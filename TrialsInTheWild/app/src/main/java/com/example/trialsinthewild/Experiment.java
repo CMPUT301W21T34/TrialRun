@@ -1,5 +1,6 @@
 package com.example.trialsinthewild;
 
+import java.util.ArrayList;
 import java.util.Date;
 
     /*
@@ -70,12 +71,14 @@ public class Experiment {
     private Region region;
     private int minimum_trials;
     private int type;
+    private ArrayList<Trial> trials;
     // How do we handle discussions (Questions/Answers?)
 
     public Experiment() {
     }
 
     public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type) {
+        this.trials = new ArrayList<>();
         this.experiment_id=experiment_id;
         this.owner_id=owner_id;
         this.description=description;
