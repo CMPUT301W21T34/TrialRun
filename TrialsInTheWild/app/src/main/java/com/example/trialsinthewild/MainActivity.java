@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                            // Sets a user id in devices shared preferences
                            editor.putInt("UserId", next_id);
                            editor.commit();
+                           UserManager.setApplicationUser(next_id);
                        }
                    }).addOnFailureListener(new OnFailureListener() {
                        @Override
@@ -100,8 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                }
            });
         } else {
-            // user_id already exists locally!
-            // user_id <- this is the current users id
+            UserManager.setApplicationUser(user_id);
         }
         /* ******************************************************************************
             End of the user id stuff

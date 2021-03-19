@@ -21,6 +21,8 @@ public class UserManager {
     private static ArrayList<User> users;
     private static CollectionReference ref;
 
+    private static int app_user_id = -1;
+
     private UserManager() {
         db = FirebaseFirestore.getInstance();
         ref = db.collection("Users");
@@ -61,11 +63,32 @@ public class UserManager {
         users.add(user);
     }
 
-    public static UserManager getInstance() {
-        if(instance != null) {
-            return instance;
+    public static User getApplicationUser() {
+        if(app_user_id < 0) {
+            Log.d("UserManager: ", "Application User not set!");
+            return null;
         }
-        return new UserManager();
+        return getUser(app_user_id);
+    }
+
+    public static void setApplicationUser(int user_id) {
+        app_user_id = user_id;
+    }
+
+    public static UserManager getInstance() {
+        if(instance == null) {
+            instance = new UserManager();
+        }
+        return instance;
+    }
+
+    /**
+     * Retrieves the list of users loaded within the database as an ArrayList
+     * @return
+     */
+    public static ArrayList<User> getUserList() {
+        // This might allow the internal array to be modifier, okay for now but be careful with this
+        return users;
     }
 
     public static User getUser(int user_id) {

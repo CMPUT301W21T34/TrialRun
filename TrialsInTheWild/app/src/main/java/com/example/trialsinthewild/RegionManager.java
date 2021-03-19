@@ -60,10 +60,10 @@ public class RegionManager {
     }
 
     public static RegionManager getInstance() {
-        if(instance != null) {
-            return instance;
+        if(instance == null) {
+            instance = new RegionManager();
         }
-        return new RegionManager();
+        return instance;
     }
 
     public static Region getRegion(int region_id) {

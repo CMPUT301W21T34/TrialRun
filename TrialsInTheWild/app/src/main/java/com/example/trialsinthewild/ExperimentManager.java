@@ -37,10 +37,10 @@ public class ExperimentManager {
     }
 
     public static ExperimentManager getInstance() {
-        if(instance != null) {
-            return instance;
+        if(instance == null) {
+            instance = new ExperimentManager();
         }
-        return new ExperimentManager();
+        return instance;
     }
 
     public Experiment getExperiment(int experiment_id) {
