@@ -33,7 +33,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ExperimentManager em = new ExperimentManager();
+        // Get all our managers for the databases set up / handling the data
+        ExperimentManager em = ExperimentManager.getInstance();
+        UserManager um = UserManager.getInstance();
+        RegionManager rm = RegionManager.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

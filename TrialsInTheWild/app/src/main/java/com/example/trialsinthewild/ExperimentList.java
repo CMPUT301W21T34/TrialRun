@@ -43,7 +43,7 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
 
         expDes.setText(experiment.getDescription());
         expStatus.setText(experiment.getStatusStr());
-        expName.setText(String.valueOf(experiment.getOwnerId()));
+        expName.setText(UserManager.getUser(experiment.getOwnerId()).getUsername());
 
         return view;
     }

@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,8 @@ import androidx.fragment.app.DialogFragment;
 public class CreateExperimentFragment extends DialogFragment {
     private EditText miniNoTrails;
     private EditText expDescription;
+    private EditText locDescription;
+    private Switch locationReqSwitch;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
@@ -40,7 +44,19 @@ public class CreateExperimentFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_create_experiment, null);
         expDescription = view.findViewById(R.id.expDescriptionEditText);//
         miniNoTrails = view.findViewById(R.id.miniNoTrailsEditText);//
-
+        locationReqSwitch = view.findViewById(R.id.switchRegion);
+        locDescription = view.findViewById(R.id.locationDescriptionEditText);
+        locDescription.setEnabled(false);
+        locationReqSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    locDescription.setEnabled(true);
+                } else {
+                    locDescription.setEnabled(false);
+                }
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder

@@ -25,9 +25,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class ExperimenterFragment extends Fragment {
+public class ExperimenterFragment extends Fragment implements ExperimentManager.OnExperimentDataChange {
 
     private FirebaseFirestore db;
+    private ArrayList<Experiment> list;
+    private ExperimentList adapter;
+
+    @Override
+    public void dataChanged() {
+        // something
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -85,7 +92,7 @@ public class ExperimenterFragment extends Fragment {
         });
 
         //I see
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        /*collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 // Clear the city data list
@@ -110,7 +117,7 @@ public class ExperimenterFragment extends Fragment {
                 }
                 adapter.notifyDataSetChanged(); // reflects change on our UI
             }
-        });
+        });*/
     }
 
     @Override

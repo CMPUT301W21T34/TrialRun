@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Exp description"
+        android:hint="Experiment description"
         android:inputType="textPersonName" />
 
     <EditText
@@ -16,7 +16,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="set minimum number of trails"
+        android:hint="Minimum number of trials required"
         android:inputType="textPersonName" />
+
+    <Switch
+        android:id="@+id/switchRegion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Requires Location" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Location description: " />
+
+        <EditText
+            android:id="@+id/locationDescriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+    </LinearLayout>
 
 </LinearLayout>
