@@ -13,25 +13,39 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
-
+//https://www.youtube.com/watch?v=fGcMLu1GJEc&t=567s
+//navigation class are modified from Coding in Flow
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CreateExperimentFragment.OnFragmentInteractionListener {
     private DrawerLayout drawer;
+    private EditText contact;
+    private TextView user_name;
+    private Button change_info;
+    private FirebaseFirestore firedb;
+    private int u_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Activity Launched
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // Get all our managers for the databases set up / handling the data
         ExperimentManager em = ExperimentManager.getInstance();
@@ -106,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* ******************************************************************************
             End of the user id stuff
         *********************************************************************************/
+
     }
 
     @Override

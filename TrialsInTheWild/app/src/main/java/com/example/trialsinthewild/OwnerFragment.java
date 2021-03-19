@@ -12,7 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+//https://www.youtube.com/watch?v=fGcMLu1GJEc&t=567s
+//navigation class are modified from Coding in Flow
 public class OwnerFragment extends Fragment {
 
     @Nullable

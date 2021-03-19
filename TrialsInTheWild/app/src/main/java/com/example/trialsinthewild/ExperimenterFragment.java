@@ -24,7 +24,8 @@ import java.util.HashMap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+//https://www.youtube.com/watch?v=fGcMLu1GJEc&t=567s
+//navigation class are modified from Coding in Flow
 public class ExperimenterFragment extends Fragment implements ExperimentManager.OnExperimentDataChange {
 
     private FirebaseFirestore db;
