@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Activity Launched
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        firedb = FirebaseFirestore.getInstance();
 
         // Get all our managers for the databases set up / handling the data
         ExperimentManager em = ExperimentManager.getInstance();
