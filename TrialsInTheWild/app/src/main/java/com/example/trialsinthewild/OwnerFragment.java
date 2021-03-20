@@ -15,11 +15,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 //https://www.youtube.com/watch?v=fGcMLu1GJEc&t=567s
 //navigation class are modified from Coding in Flow
 public class OwnerFragment extends Fragment {
-
+    private View view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_owner, container, false);
+        view = inflater.inflate(R.layout.fragment_owner, container, false);
+        return view;
     }
 
     @Override
