@@ -43,20 +43,14 @@
             android:gravity="center"
             android:background="@android:color/holo_green_light"
             />
-        <Button
-            android:id="@+id/refresh_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
-            android:gravity="center"
-            android:text="Refresh" />
 
         <Button
             android:id="@+id/edit_contact_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="EDIT CONTACT INFORMATION" />
+            android:layout_marginTop="500dp"
+            android:text="SAVE CONTACT INFORMATION" />
 
     </LinearLayout>
 

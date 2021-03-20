@@ -38,7 +38,6 @@ public class UserFragment extends Fragment {
     private EditText contact;
     private TextView user_name;
     private Button change_info;
-    private Button refresh;
     private View view;
     private FirebaseFirestore firedb;
     private DocumentReference collectionReference;
@@ -49,42 +48,33 @@ public class UserFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        view = inflater.inflate(R.layout.fragment_user, container, false);
+        return view;
 
     }
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        view = getActivity().getLayoutInflater().inflate(R.layout.fragment_user, null);
+        //view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_user, null);
         User user_id = UserManager.getApplicationUser();
         contact = view.findViewById(R.id.user_contact);
         change_info = view.findViewById(R.id.edit_contact_info);
         user_name = (TextView) view.findViewById(R.id.userName);
-        refresh = view.findViewById(R.id.refresh_info);
         firedb = FirebaseFirestore.getInstance();
 
         collectionReference = firedb.collection("Users").document("7");
-        refresh.setOnClickListener(new View.OnClickListener() {
+        //https://www.youtube.com/watch?v=di5qmolrFVs modified from Coding in Flow
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                collectionReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
 
-                            String con_info = documentSnapshot.getString("contact_info");
-                            String u_name = documentSnapshot.getString("user_name");
-                            contact.setText(con_info);
-                            user_name.setText(u_name);
+                    String con_info = documentSnapshot.getString("contact_info");
+                    String u_name = documentSnapshot.getString("user_name");
+                    contact.setText(con_info);
+                    user_name.setText(u_name);
 
-//                            if (!task.isSuccessful()) {
-//                                Log.e("firebase", "Error getting data", task.getException());
-//                            } else {
-//                                Log.d("firebase", String.valueOf(task.getResult().getData()));
-//                            }
-                        }
-                    }
-                });
+                }
             }
         });
 
@@ -126,8 +116,8 @@ public class UserFragment extends Fragment {
         change_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String new_Info = change_info.getText().toString();
-                change_info.setText(new_Info);
+                String new_Info = contact.getText().toString();
+                contact.setText(new_Info);
                 collectionReference.update("contact_info", new_Info);
 
             }
