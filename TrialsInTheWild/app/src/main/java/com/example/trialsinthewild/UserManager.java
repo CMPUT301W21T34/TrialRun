@@ -16,12 +16,17 @@ import java.util.ArrayList;
 import androidx.annotation.Nullable;
 
 public class UserManager {
-    private static UserManager instance;
-    private static FirebaseFirestore db;
-    private static ArrayList<User> users;
-    private static CollectionReference ref;
+    public static int MAX_USERNAME_LENGTH = 20;     // We can set these later
+    public static int MIN_USERNAME_LENGTH = 1;      // Unsure if needed
+    public static int APP_USER_NOT_SET = -1;
 
-    private static int app_user_id = -1;
+    private static UserManager instance = null;
+    private FirebaseFirestore db;
+    private static ArrayList<User> users;
+    private CollectionReference ref;
+
+    private static int app_user_id = APP_USER_NOT_SET;
+
 
     private UserManager() {
         db = FirebaseFirestore.getInstance();
@@ -38,24 +43,35 @@ public class UserManager {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     Log.d("Loading in user: ", String.valueOf(doc.getId()));
-
-                    int user_id = Integer.parseInt(doc.getId());
-                    String contact_info = (String) doc.getData().get("contact_info");
-                    String username = (String) doc.getData().get("username");
-                    createUser(user_id, contact_info, username);
+                    processUserSnapshot(doc);
                 }
             }
         });
 
-        // Changes made to the database, update them somehow
+        // Changes made to the database
+        // NOTE: When ANY change is made to a document, the entire document is sent back to us every single time.
+        //       This means if user_id=1 changes contact_info, every single user that exists is reloaded
         ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for (QueryDocumentSnapshot doc : value) {
                     Log.d("UserManager: ", "Loading in updated Region: " + String.valueOf(doc.getId()));
+                    processUserSnapshot(doc);
                 }
             }
         });
+    }
+
+    private void processUserSnapshot(QueryDocumentSnapshot doc) {
+        int user_id = Integer.parseInt(doc.getId());
+        String contact_info = (String) doc.getData().get("contact_info");
+        String username = (String) doc.getData().get("username");
+
+        if(getUser(user_id)==null) {
+            createUser(user_id, contact_info, username);
+        } else {
+            updateUser(user_id, contact_info, username);
+        }
     }
 
     private void createUser(int user_id, String contact_info, String username) {
@@ -63,8 +79,66 @@ public class UserManager {
         users.add(user);
     }
 
+    private void updateUser(int user_id, String contact_info, String username) {
+        User user = getUser(user_id);
+        assert user != null;
+        user.setContactInfo(contact_info);
+        user.setUsername(username);
+    }
+
+    public boolean userNameExists(String username) {
+        for(User u : users) {
+            if(u.getUsername().toLowerCase().equals(username.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether a given username is valid. Since only the application user
+     * can edit their own profile, we assume their profile for all checks
+     * @param username
+     *          String - username to check against
+     * @return
+     *          Boolean - True if valid, False if invalid
+     */
+    public static boolean isValidUsername(String username) {
+        /* Username cannot be;
+         *  1). Empty
+         *  2). Bigger than MAX_USERNAME_LENGTH
+         *  3). Smaller than MIN_USERNAME_LENGTH
+         *  4). The same as default username
+         *  5). Must only contain letters, numbers, and underscores
+         */
+
+        if(username.isEmpty()) {
+            return false;
+        }
+
+        if(username.length() > MAX_USERNAME_LENGTH) {
+            return false;
+        }
+
+        if(username.length() < MIN_USERNAME_LENGTH) {
+            return false;
+        }
+
+        User u = getApplicationUser();
+        if(u != null && u.getDefaultUsername().equals(username)) {
+            return false;
+        }
+
+        if(username.matches("^.*[^a-zA-Z0-9_].*$")) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static User getApplicationUser() {
         if(app_user_id < 0) {
+            // This should never happen I hope
             Log.d("UserManager: ", "Application User not set!");
             return null;
         }
@@ -82,20 +156,38 @@ public class UserManager {
         return instance;
     }
 
-    /**
-     * Retrieves the list of users loaded within the database as an ArrayList
-     * @return
-     */
-    public static ArrayList<User> getUserList() {
-        // This might allow the internal array to be modifier, okay for now but be careful with this
-        return users;
-    }
-
     public static User getUser(int user_id) {
         for(User u : users) {
             if(u!=null && u.getUserId()==user_id)
                 return u;
         }
         return null;
+    }
+
+    public static User getUserByName(String username) {
+        for(User u : users) {
+            if(u!=null && u.getUsername().equals(username))
+                return u;
+        }
+        return null;
+    }
+
+    public boolean updateUser(String field, Object value) {
+        if(field == "username") {
+            User u = getApplicationUser();
+            if(u == null) {
+                return false;
+            }
+            if(userNameExists(value.toString())) {
+                return false;
+            }
+            if(u.hasDefaultUsername()) {
+                if(u.getDefaultUsername().equals(value.toString())) {
+                    return false;
+                }
+            }
+        }
+        ref.document(String.valueOf(app_user_id)).update(field, value);
+        return true;
     }
 }

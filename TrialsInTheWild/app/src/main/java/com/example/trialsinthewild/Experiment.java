@@ -1,5 +1,7 @@
 package com.example.trialsinthewild;
 
+import com.google.firebase.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -67,7 +69,7 @@ public class Experiment {
     private int status;
     private boolean published;
     private String description;
-    private Date date;
+    private Timestamp date;
     private Region region;
     private int minimum_trials;
     private int type;
@@ -77,7 +79,7 @@ public class Experiment {
     public Experiment() {
     }
 
-    public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type) {
+    public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type, Timestamp date, boolean published) {
         this.trials = new ArrayList<>();
         this.experiment_id=experiment_id;
         this.owner_id=owner_id;
@@ -85,8 +87,12 @@ public class Experiment {
         this.region=region;
         this.minimum_trials=minimum_trials;
 
-        this.date = new Date();
-        this.published=false;
+        if(date == null) {
+            this.date = Timestamp.now();
+        } else {
+            this.date = date;
+        }
+        this.published=published;
         this.status=0; // STATUS_ENDED, STATUS_OPEN, STATUS
         this.type = type;
     }
@@ -127,11 +133,11 @@ public class Experiment {
         this.description = description;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

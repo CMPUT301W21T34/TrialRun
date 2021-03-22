@@ -49,7 +49,7 @@ public class User {
         this.contact_info=contact_info;
     }
 
-    public String getContact_info() {
+    public String getContactInfo() {
         return contact_info;
     }
 
@@ -57,7 +57,23 @@ public class User {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username=username;
+    }
+
+    public void setContactInfo(String contact_info) {
+        this.contact_info=contact_info;
+    }
+
     public int getUserId() {
         return userId;
+    }
+
+    public boolean hasDefaultUsername() {
+        return username.equals("username"+String.valueOf(userId));
+    }
+
+    public String getDefaultUsername() {
+        return "username"+String.valueOf(userId);
     }
 }

@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                    User user = new User(next_id, "username"+String.valueOf(next_id), "");
 
                    data.put("user_id", user.getUserId());
-                   data.put("user_name", user.getUsername());
-                   data.put("contact_info", user.getContact_info());
+                   data.put("username", user.getUsername());
+                   data.put("contact_info", user.getContactInfo());
 
                    collectionReference.document(String.valueOf(user.getUserId())).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                        @Override
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                    }).addOnFailureListener(new OnFailureListener() {
                        @Override
                        public void onFailure(@NonNull Exception e) {
+                           // This means we could not connect to database, close the program with error?
                            Log.d("UserDatabase: ", "Failed to add new user to database");
                        }
                    });
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onOkPressed(Experiment newExp) {
+    public void onOkPressed() {
         //Log.d("ok pressed",newExp.getDescription());
     }
 }

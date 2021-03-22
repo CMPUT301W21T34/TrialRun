@@ -24,7 +24,7 @@ public class CreateExperimentFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Experiment newExp);
+        void onOkPressed();
     }
 
     @Override
@@ -68,8 +68,8 @@ public class CreateExperimentFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String miniNo = miniNoTrails.getText().toString();
                         String description = expDescription.getText().toString();
-                        Experiment newExperiment = new Experiment(0,0,description,null, Integer.parseInt(miniNo),0);
-                        listener.onOkPressed(newExperiment);
+                        // Create new experiment here!
+                        listener.onOkPressed();
                     }}).create();
     }
 }

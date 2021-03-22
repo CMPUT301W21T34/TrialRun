@@ -1,57 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:background="@android:color/holo_purple"
-        android:gravity="center"
-        android:layout_marginLeft="6dp"
-        android:text="User Name" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#462785B0">
 
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="XXXXXXXXXXX"
-        android:layout_marginLeft="155dp"
-        android:background="@android:color/holo_blue_dark"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_account_circle_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/userName"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/ic_baseline_account_circle_24" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center|left"
+            android:text="TwentyCharactersLong"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/userName"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/setUsernamePromptTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?android:attr/colorPressedHighlight"
+            android:gravity="center"
+            android:text="Please set up username below"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/setUsernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?android:attr/colorPressedHighlight"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="You may only set your username once"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/confirmUsernameButton"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Confirm Username"
+            app:backgroundTint="@color/design_default_color_primary" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Contact Information"
             android:gravity="center"
-            android:background="@android:color/holo_orange_dark"/>
+            android:text="Contact Information"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="XXX@XXX.com"
             android:id="@+id/user_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:gravity="center"
-            android:background="@android:color/holo_green_light"
-            />
+            android:text="XXX@XXX.com" />
 
         <Button
             android:id="@+id/edit_contact_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="500dp"
-            android:text="SAVE CONTACT INFORMATION" />
+            android:text="SAVE CONTACT INFORMATION"
+            app:backgroundTint="@color/design_default_color_primary" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

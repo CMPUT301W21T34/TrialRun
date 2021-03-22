@@ -1,7 +1,8 @@
 package com.example.trialsinthewild;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,35 +13,27 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.firebase.firestore.DocumentReference;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
 //https://www.youtube.com/watch?v=fGcMLu1GJEc&t=567s
 //navigation class are modified from Coding in Flow
 public class UserFragment extends Fragment {
 
-    private CreateExperimentFragment.OnFragmentInteractionListener listener;
     private EditText contact;
     private TextView user_name;
     private Button change_info;
     private View view;
-    private FirebaseFirestore firedb;
-    private DocumentReference collectionReference;
+
+    Button confirm_username;
+    TextView set_username_prompt;
+    EditText set_username;
+
     public UserFragment(){
 
     }
@@ -57,12 +50,100 @@ public class UserFragment extends Fragment {
 
         //view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_user, null);
         User user_id = UserManager.getApplicationUser();
+
+        confirm_username = view.findViewById(R.id.confirmUsernameButton);
+        set_username_prompt = view.findViewById(R.id.setUsernamePromptTextView);
+        set_username = view.findViewById(R.id.setUsernameEditText);
+
         contact = view.findViewById(R.id.user_contact);
         change_info = view.findViewById(R.id.edit_contact_info);
+        change_info.setVisibility(View.GONE);
         user_name = (TextView) view.findViewById(R.id.userName);
-        firedb = FirebaseFirestore.getInstance();
 
-        collectionReference = firedb.collection("Users").document("7");
+        UserManager um = UserManager.getInstance();
+        User u = um.getApplicationUser();
+
+        contact.setText(u.getContactInfo());
+        user_name.setText(u.getUsername());
+
+        contact.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (u.getContactInfo().equals(contact.getText().toString())) {
+                    change_info.setVisibility(View.GONE);
+                } else {
+                    change_info.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        if(u.hasDefaultUsername()) {
+            confirm_username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String new_username =set_username.getText().toString();
+                    if(um.updateUser("username", new_username)) {
+                        confirm_username.setVisibility(View.GONE);
+                        set_username.setVisibility(View.GONE);
+                        set_username_prompt.setVisibility(View.GONE);
+                        user_name.setText(new_username);
+                    }
+                }
+            });
+
+            set_username.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    UserManager um2 = UserManager.getInstance();
+                    Log.d("TextField: ", set_username.getText().toString());
+                    String new_username = set_username.getText().toString();
+                    if(um2.userNameExists(new_username)) {
+                        set_username_prompt.setText("Username already exists!");
+                        confirm_username.setEnabled(false);
+                        confirm_username.setBackgroundColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
+                    } else if (!um2.isValidUsername(new_username)) {
+                        // TODO: this ugly fix up later
+                        set_username_prompt.setText("Invalid username, check length and special characters!");
+                        confirm_username.setEnabled(false);
+                        confirm_username.setBackgroundColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
+                    } else {
+                        if(!set_username_prompt.getText().toString().equals("Please set up username below")) {
+                            set_username_prompt.setText("Please set up username below");
+                        }
+                        confirm_username.setEnabled(true);
+                        confirm_username.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        } else {
+            confirm_username.setVisibility(View.GONE);
+            set_username.setVisibility(View.GONE);
+            set_username_prompt.setVisibility(View.GONE);
+        }
+
+
+
+        /*collectionReference = firedb.collection("Users").document("7");
         //https://www.youtube.com/watch?v=di5qmolrFVs modified from Coding in Flow
         collectionReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -76,7 +157,7 @@ public class UserFragment extends Fragment {
 
                 }
             }
-        });
+        });*/
 
 
 //        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -117,9 +198,11 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String new_Info = contact.getText().toString();
-                contact.setText(new_Info);
-                collectionReference.update("contact_info", new_Info);
-
+                UserManager um = UserManager.getInstance();
+                if(um.updateUser("contact_info", new_Info)) {
+                    contact.setText(new_Info);
+                    change_info.setVisibility(View.GONE);
+                }
             }
         });
 
