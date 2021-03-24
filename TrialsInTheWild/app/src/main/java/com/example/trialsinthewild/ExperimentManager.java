@@ -215,4 +215,15 @@ public class ExperimentManager {
         }
         return results;
     }
+
+    public ArrayList<Experiment> getOwnedExperiments(int owner_id) {
+        ArrayList<Experiment> results = new ArrayList<>();
+        for(Experiment e : experiments) {
+            //  with its description, owner username, and status that match the search.
+            if(e.getOwnerId() == owner_id) {
+                results.add(e);
+            }
+        }
+        return results;
+    }
 }

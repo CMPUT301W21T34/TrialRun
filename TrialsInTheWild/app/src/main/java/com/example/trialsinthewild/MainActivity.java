@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          ********************************************************************************/
 
         // TODO: PUT THIS ALL IN USER MANAGER
+        // TODO: This is a to do list thing
         // users that don't exist have id of -1 I guess?
         final int NEW_USER = -1;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

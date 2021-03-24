@@ -27,6 +27,8 @@ public class UserManager {
 
     private static int app_user_id = APP_USER_NOT_SET;
 
+    // local variable here for subscribed experiments
+    private ArrayList<Integer> subscribed_experiments;
 
     private UserManager() {
         db = FirebaseFirestore.getInstance();
@@ -35,6 +37,15 @@ public class UserManager {
         instance = this;
 
         loadUsers();
+        loadLocalData();
+    }
+
+    private void loadLocalData() {
+        // loading the stuff from the user phone
+        // subscribed experiments
+        // the users id
+        subscribed_experiments = new ArrayList<>();
+        // load from shared preferences.
     }
 
     private void loadUsers() {
@@ -194,5 +205,14 @@ public class UserManager {
         }
         ref.document(String.valueOf(app_user_id)).update(field, value);
         return true;
+    }
+
+    public ArrayList<Integer> getSubscribedExperiments() {
+        // TODO: testing purposes, remove later and implement properly
+        ArrayList<Integer> fake_list = new ArrayList<>();
+        fake_list.add(0);
+        fake_list.add(1);
+        return fake_list;
+        //return subscribed_experiments;
     }
 }
