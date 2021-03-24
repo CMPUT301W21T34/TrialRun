@@ -2,6 +2,7 @@ package com.example.trialsinthewild;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
@@ -14,8 +15,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class ExperimentManager {
@@ -131,6 +134,49 @@ public class ExperimentManager {
         experiments.add(experiment);
     }
 
+    private int getMaxExperimentId() {
+        int maximum = 0;
+        for(Experiment e : experiments) {
+            maximum = Math.max(e.getExperimentId(), maximum);
+        }
+        maximum+=1;
+        return maximum;
+    }
+
+    public void createNewExperiment(int owner_id, String description, int region_id, int minimum_trials, int type) {
+        /*
+            The assumption is that firebase keeps our client updated enough to use the biggest experiment_id in our list
+            Worst case scenario is two people make one at the same time, and one persons glitches out and gets overwritten
+            which should be okay?
+         */
+        int new_id = getMaxExperimentId();
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("experiment_id", new_id);
+        data.put("owner_id", owner_id);
+        data.put("description", description);
+        data.put("region_id", region_id);
+        data.put("minimum_trials", minimum_trials);
+        data.put("type", type);
+        data.put("date", Timestamp.now());
+        data.put("published", Boolean.FALSE);
+
+        ref
+                .document(String.valueOf(new_id))
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("Firebase: ", "Data has been added successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Firebase: ", "Data can not be added!");
+                    }
+                });
+    }
+
     private void loadExperiments() {
         ref.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -152,5 +198,21 @@ public class ExperimentManager {
                 }
             }
         });
+    }
+
+    public ArrayList<Experiment> searchExperimentsByKeyword(String keyword) {
+        ArrayList<Experiment> results = new ArrayList<>();
+        for(Experiment e : experiments) {
+            UserManager um = UserManager.getInstance();
+            User u = um.getUser(e.getOwnerId());
+
+            //  with its description, owner username, and status that match the search.
+            if(u.getUsername().contains(keyword)
+            || e.getDescription().contains(keyword)
+            || e.getStatusStr().contains(keyword)) {
+                results.add(e);
+            }
+        }
+        return results;
     }
 }

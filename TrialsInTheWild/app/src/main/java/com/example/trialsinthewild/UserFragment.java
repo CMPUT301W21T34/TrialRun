@@ -48,9 +48,6 @@ public class UserFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_user, null);
-        User user_id = UserManager.getApplicationUser();
-
         confirm_username = view.findViewById(R.id.confirmUsernameButton);
         set_username_prompt = view.findViewById(R.id.setUsernamePromptTextView);
         set_username = view.findViewById(R.id.setUsernameEditText);

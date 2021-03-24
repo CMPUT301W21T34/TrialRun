@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ExperimentManager em = ExperimentManager.getInstance();
         UserManager um = UserManager.getInstance();
         RegionManager rm = RegionManager.getInstance();
+        TrialManager tm = TrialManager.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             the database. This entire section needs to go into helper class
          ********************************************************************************/
 
+        // TODO: PUT THIS ALL IN USER MANAGER
         // users that don't exist have id of -1 I guess?
         final int NEW_USER = -1;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

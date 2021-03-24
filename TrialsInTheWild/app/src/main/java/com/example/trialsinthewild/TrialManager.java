@@ -3,10 +3,12 @@ package com.example.trialsinthewild;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,14 +32,34 @@ public class TrialManager {
         loadTrials();
     }
 
-    /*
-    private GeoPoint loc;           // If required
-    private double outcome;         // outcome of experiment, should work for all types
-    private int type;               // type of experiment/trial - may be redundant
-    private int experiment_id;      // id of experiment it's being run for - if we know this we implicitly know the type it should be
-    private int experimenter_id;    // id of the experimenter running it
-    private int trial_id;           // id of the trial itself
-     */
+    private void processTrialSnapshot(QueryDocumentSnapshot doc) {
+        int trial_id = Integer.parseInt(doc.getId());
+        Timestamp date = doc.getTimestamp("date");
+        int experiment_id = ((Long)doc.get("experiment_id")).intValue();
+        int experimenter_id = ((Long)doc.get("experimenter_id")).intValue();
+        GeoPoint location = doc.getGeoPoint("location");
+        double outcome = doc.getDouble("outcome");
+        Trial trial = getTrial(trial_id);
+        if(trial == null) {
+            buildTrial(trial_id, experiment_id, experimenter_id, location, outcome);
+        } else {
+            updateTrial(trial, experiment_id, experimenter_id, location, outcome);
+        }
+    }
+
+    private void updateTrial(Trial trial, int experiment_id, int experimenter_id, GeoPoint loc, double outcome) {
+        // Honestly don't know when this would ever be used
+        // TODO: updateTrial - Don't forget about me!
+        trial.setExperimenterId(experimenter_id);
+        trial.setExperimentId(experiment_id);
+        trial.setLocation(loc);
+        trial.setOutcome(outcome);
+    }
+
+    private void buildTrial(int trial_id, int experiment_id, int experimenter_id, GeoPoint loc, double outcome) {
+        Trial trial = new Trial(outcome, experiment_id, experimenter_id, trial_id, loc);
+        trials.add(trial);
+    }
 
     private void loadTrials() {
         ref.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -45,11 +67,7 @@ public class TrialManager {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     Log.d("Loading in Trial: ", String.valueOf(doc.getId()));
-
-                    int trial_id = Integer.parseInt(doc.getId());
-                    int type = ((Long) doc.getData().get("contact_info")).intValue();
-                    String username = (String) doc.getData().get("username");
-                    createTrial();
+                    processTrialSnapshot(doc);
                 }
             }
         });
@@ -64,11 +82,6 @@ public class TrialManager {
             }
         });
     }
-
-    private void createTrial() {
-        // newly created trial objects when first loaded
-    }
-
 
     public static TrialManager getInstance() {
         if (instance == null) {

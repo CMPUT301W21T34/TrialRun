@@ -67,21 +67,26 @@ public class UserManager {
         String contact_info = (String) doc.getData().get("contact_info");
         String username = (String) doc.getData().get("username");
 
-        if(getUser(user_id)==null) {
+        User user = getUser(user_id);
+        if( user == null) {
             createUser(user_id, contact_info, username);
         } else {
-            updateUser(user_id, contact_info, username);
+            updateUser(user, contact_info, username);
         }
     }
 
+    /**
+     * For use when building a new user from disc or creating new user for the first time
+     * @param user_id
+     * @param contact_info
+     * @param username
+     */
     private void createUser(int user_id, String contact_info, String username) {
         User user = new User(user_id, username, contact_info);
         users.add(user);
     }
 
-    private void updateUser(int user_id, String contact_info, String username) {
-        User user = getUser(user_id);
-        assert user != null;
+    private void updateUser(User user, String contact_info, String username) {
         user.setContactInfo(contact_info);
         user.setUsername(username);
     }
@@ -173,7 +178,7 @@ public class UserManager {
     }
 
     public boolean updateUser(String field, Object value) {
-        if(field == "username") {
+        if(field.equals("username")) {
             User u = getApplicationUser();
             if(u == null) {
                 return false;

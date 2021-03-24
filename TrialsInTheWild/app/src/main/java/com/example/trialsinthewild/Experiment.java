@@ -73,14 +73,15 @@ public class Experiment {
     private Region region;
     private int minimum_trials;
     private int type;
-    private ArrayList<Trial> trials;
+    private ArrayList<Integer> user_id_blacklist;
+    private ArrayList<Integer> accepted_trials;
     // How do we handle discussions (Questions/Answers?)
 
     public Experiment() {
+
     }
 
     public Experiment(int experiment_id, int owner_id, String description, Region region, int minimum_trials, int type, Timestamp date, boolean published) {
-        this.trials = new ArrayList<>();
         this.experiment_id=experiment_id;
         this.owner_id=owner_id;
         this.description=description;
@@ -108,6 +109,16 @@ public class Experiment {
     /*public void setExperiment_id(int experiment_id) {
         this.experiment_id = experiment_id;
     }*/
+
+    public boolean isBlacklisted(int user_id) {
+        return user_id_blacklist.contains(user_id);
+    }
+
+    public void addToBlacklist(int user_id) {
+        if(!user_id_blacklist.contains(user_id)) {
+            user_id_blacklist.add(user_id);
+        }
+    }
 
     public int getOwnerId() {
         return owner_id;

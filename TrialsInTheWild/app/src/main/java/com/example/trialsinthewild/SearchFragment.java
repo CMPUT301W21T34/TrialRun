@@ -42,9 +42,8 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 UserManager userM = UserManager.getInstance();
                 String enter = enter_name.getText().toString();
-                if (enter!=NULL){
+                if (enter.isEmpty()){
                     if(userM.userNameExists(enter)){
-                        //User user = UserManager.getUserByName(enter);
                         Intent jump = new Intent(view.getContext(),SearchShow.class);
                         jump.putExtra("userName",enter);
                         startActivity(jump);
