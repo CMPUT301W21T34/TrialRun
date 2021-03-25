@@ -95,7 +95,7 @@ public class ExperimentDetailsActivity extends AppCompatActivity {
         ListView lvExpDiscussion = findViewById(R.id.lv_exp_discussion);
         ArrayList<QAPair> question_list = new ArrayList<>();
         for(int i=0; i<10;++i) {
-            QAPair qp = new QAPair("How long does this experiment (Experiment #" + String.valueOf(experiment_id) + ") take", "", experiment_id);
+            QAPair qp = new QAPair("How long does this experiment (Experiment #" + String.valueOf(i) + ") take", "", i);
             question_list.add(qp);
         }
         QuestionAnswerList qaAdapter = new QuestionAnswerList(this, question_list);
