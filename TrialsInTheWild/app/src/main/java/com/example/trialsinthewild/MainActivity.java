@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Get all our managers for the databases set up / handling the data
         ExperimentManager em = ExperimentManager.getInstance();
+
+        // setApplicationContext must be done to get local data
+        UserManager.setApplicationContext(getApplicationContext());
         UserManager um = UserManager.getInstance();
         RegionManager rm = RegionManager.getInstance();
         TrialManager tm = TrialManager.getInstance();
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.home);
         }
 
+        //
+
         /* ******************************************************************************
             This is a crappy test of how to create a user_id and store it locally. If they don't
             Have a user_id, get a unique ID from the database and update it locally and in
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // TODO: PUT THIS ALL IN USER MANAGER
         // TODO: This is a to do list thing
         // users that don't exist have id of -1 I guess?
-        final int NEW_USER = -1;
+        /*final int NEW_USER = -1;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         int user_id = preferences.getInt("UserId", NEW_USER);
@@ -120,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            });
         } else {
             UserManager.setApplicationUser(user_id);
-        }
+        }*/
         /* ******************************************************************************
             End of the user id stuff
         *********************************************************************************/

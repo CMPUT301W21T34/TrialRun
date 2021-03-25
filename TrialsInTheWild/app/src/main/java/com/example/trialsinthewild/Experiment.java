@@ -196,10 +196,10 @@ public class Experiment {
         //this.status
         switch (this.status){
             case STATUS_ENDED:
-                return "ended";
+                return "Ended";
 
             case  STATUS_OPEN:
-                return "open";
+                return "Open";
             default:
                 throw new IllegalStateException("Unexpected value: " + this.status);
         }

@@ -33,7 +33,6 @@ public class SearchShow extends Activity {
                 finish();
             }
         });
-
-
+        
     }
 }

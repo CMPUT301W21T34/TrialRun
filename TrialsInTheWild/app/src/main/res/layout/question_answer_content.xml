@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_discussion_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="This is a question about the experiment, kida confused about what this does, how do I do this, what happens if this"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_discussion_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="40dp"
+        android:text="Reply to the above question very long might be lengthy usure how to format this jsut checing to see"
+        android:textColor="@android:color/holo_green_dark" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:id="@+id/btn_submit_answer"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="-1dp"
+            android:layout_marginRight="-1dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/ic_baseline_reply_24"
+            android:insetLeft="0dp" />
+
+        <EditText
+            android:id="@+id/et_answer_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btn_submit_answer"
+            android:layout_toStartOf="@+id/btn_submit_answer"
+            android:hint="Reply to this question"
+            android:inputType="textMultiLine"
+            android:padding="15dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    </RelativeLayout>
+
+</LinearLayout>

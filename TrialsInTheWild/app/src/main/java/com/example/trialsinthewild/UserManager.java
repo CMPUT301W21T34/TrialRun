@@ -1,7 +1,11 @@
 package com.example.trialsinthewild;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -12,7 +16,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class UserManager {
@@ -24,6 +34,7 @@ public class UserManager {
     private FirebaseFirestore db;
     private static ArrayList<User> users;
     private CollectionReference ref;
+    private static Context application_context;
 
     private static int app_user_id = APP_USER_NOT_SET;
 
@@ -40,12 +51,94 @@ public class UserManager {
         loadLocalData();
     }
 
+    private static String getDefaultSharedPreferencesName() {
+        return application_context.getPackageName() + "_preferences";
+    }
+
+    private int getMaxUserId() {
+        int max_user_id = 0;
+        for(User u : users) {
+            if(u.getUserId() > max_user_id) {
+                max_user_id = u.getUserId();
+            }
+        }
+        return max_user_id+1;
+    }
+
     private void loadLocalData() {
         // loading the stuff from the user phone
         // subscribed experiments
         // the users id
         subscribed_experiments = new ArrayList<>();
-        // load from shared preferences.
+        final int NEW_USER = -1;
+        SharedPreferences prefs = application_context.getSharedPreferences(getDefaultSharedPreferencesName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+
+
+        // https://stackoverflow.com/questions/7057845/save-arraylist-to-sharedpreferences
+        int user_id = prefs.getInt("UserId", APP_USER_NOT_SET);
+        //edit.putStringSet("subscribed_experiments", set);
+        Log.d("user_id: ", String.valueOf(user_id));
+
+        if(user_id == APP_USER_NOT_SET) {
+            int new_id = getMaxUserId();
+
+            HashMap<String, Object> data = new HashMap<>();
+
+            User user = createUser(new_id, "No contact Info", "username"+String.valueOf(new_id));
+            data.put("user_id", user.getUserId());
+            data.put("username", user.getUsername());
+            data.put("contact_info", user.getContactInfo());
+            ref.document(String.valueOf(user.getUserId())).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d("UserDatabase: ", "Successfully added new user to database");
+
+                    // Sets a user id in devices shared preferences
+                    Set<String> empty_set = new HashSet<String>();
+                    edit.putInt("UserId", new_id);
+                    edit.putStringSet("subscribed_experiments", empty_set);
+                    edit.commit();
+                    UserManager.setApplicationUser(new_id);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // This means we could not connect to database, close the program with error?
+                    Log.d("UserDatabase: ", "Failed to add new user to database");
+                }
+            });
+        } else {
+            setApplicationUser(user_id);
+            Set<String> local_subscribed = prefs.getStringSet("subscribed_experiments", null);
+            if(local_subscribed != null) {
+                for (String s : local_subscribed) {
+                    int value = Integer.parseInt(s);
+                    subscribed_experiments.add(value);
+                }
+            }
+        }
+    }
+
+    public void saveSubscribedExperiments() {
+        SharedPreferences prefs = application_context.getSharedPreferences(getDefaultSharedPreferencesName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        Set<String> new_set = new HashSet<>();
+        for (int i : subscribed_experiments) {
+            new_set.add(String.valueOf(i));
+        }
+        edit.putStringSet("subscribed_experiments", new_set);
+        edit.commit();
+    }
+
+    public void unsubscribeToExperiment(int experiment_id) {
+        subscribed_experiments.remove(experiment_id);
+        saveSubscribedExperiments();
+    }
+
+    public void subscribeToExperiment(int experiment_id) {
+        subscribed_experiments.add(experiment_id);
+        saveSubscribedExperiments();
     }
 
     private void loadUsers() {
@@ -92,9 +185,10 @@ public class UserManager {
      * @param contact_info
      * @param username
      */
-    private void createUser(int user_id, String contact_info, String username) {
+    private User createUser(int user_id, String contact_info, String username) {
         User user = new User(user_id, username, contact_info);
         users.add(user);
+        return user;
     }
 
     private void updateUser(User user, String contact_info, String username) {
@@ -172,6 +266,10 @@ public class UserManager {
         return instance;
     }
 
+    public static void setApplicationContext(Context context) {
+        application_context = context;
+    }
+
     public static User getUser(int user_id) {
         for(User u : users) {
             if(u!=null && u.getUserId()==user_id)
@@ -208,11 +306,10 @@ public class UserManager {
     }
 
     public ArrayList<Integer> getSubscribedExperiments() {
-        // TODO: testing purposes, remove later and implement properly
-        ArrayList<Integer> fake_list = new ArrayList<>();
-        fake_list.add(0);
-        fake_list.add(1);
-        return fake_list;
-        //return subscribed_experiments;
+        return subscribed_experiments;
+    }
+
+    public boolean isSubscribed(int experiment_id) {
+        return subscribed_experiments.contains(experiment_id);
     }
 }

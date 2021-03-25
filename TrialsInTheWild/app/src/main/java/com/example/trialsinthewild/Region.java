@@ -26,4 +26,8 @@ public class Region {
     public int getRegionId() {
         return region_id;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }
