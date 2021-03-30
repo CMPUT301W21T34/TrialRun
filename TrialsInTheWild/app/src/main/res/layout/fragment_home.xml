@@ -1,11 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark">
+    android:background="@android:color/holo_blue_dark"
+    android:id="@+id/home_Home"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/home_setUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish set up account"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Welcome back"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="90dp"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/home_userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="225dp"
+        android:textSize="20dp"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="25dp"
+        android:text="Subscribed experiments"
+        />
+
+    <ListView
+        android:id="@+id/home_subscribed"
+        android:layout_width="360dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="175dp"
+        android:layout_marginLeft="25dp"
+        />
+
+    <Button
+        android:id="@+id/home_findExperiments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find experiments to participate in"
+        android:layout_marginTop="325dp"
+        android:layout_marginLeft="55dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="25dp"
+        android:text="Manage your experiments"
+        />
+
+    <ListView
+        android:id="@+id/home_ownExperiments"
+        android:layout_width="360dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="425dp"
+        android:layout_marginLeft="25dp"
+        />
+
+    <Button
+        android:id="@+id/home_createExperiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create your own experiment"
+        android:layout_marginTop="607dp"
+        android:layout_marginLeft="75dp"
         />
 
 </RelativeLayout>

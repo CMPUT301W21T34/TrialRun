@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button change_info;
     private FirebaseFirestore firedb;
     private int u_id;
-
+    private int i=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Activity Launched
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.home);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ExperimentsFragment()).commit();
+            navigationView.setCheckedItem(R.id.experiments);
         }
 
         //
